@@ -1,2 +1,9 @@
 # ssl-embedded
 ssl embedded
+
+# ディレクトリ構造構想
+robot_embedded_ver1はROS2を使用しないでロボットの各構成要素に対応するソースコードを開発する。
+ROS2のパッケージを用いた開発をする場合はssl-embedded直下にrobot_embedded_ros2_ver1ファイルを作成する。
+
+# 将来
+起動とともにuartデバイスをcan0デバイスとして認識するようにして、setupを全部完了するようにする。
