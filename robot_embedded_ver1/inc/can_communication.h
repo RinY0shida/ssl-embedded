@@ -20,18 +20,21 @@
 
 class CanCommunication{
 public:
-    CanCommunication(const string can_interface_name);
+    CanCommunication(const std::string can_interface_name);
     ~CanCommunication();
 
     /**
      * @brief CAN通信を行うための関数
      * @param can_id
      * @param can_data 
+     * @return int8_t
+     * @retval 0: 正常終了
+     * @retval -1: 送信失敗
      */
-    void socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size);
+    int8_t socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size);
 
 public:
-    string can_interface_name_; // CANインターフェース名
+    std::string can_interface_name_; // CANインターフェース名
     int socket_can_; // CAN raw socket
     struct sockaddr_can addr_;
     struct can_frame frame_;
