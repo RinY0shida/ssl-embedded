@@ -1,7 +1,7 @@
 /**
  * @file can_communication.cc
  * @author RinYoshida (tororo1219@gmail.com)
- * @brief m2006とubuntuがcan通信を行うためのクラス
+ * @brief ubuntuとペリフェラルがcan通信を行うためのクラス
  * @date 2024-07-01
  */
 
@@ -29,5 +29,15 @@ int8_t CanCommunication::socketCanSend(const uint16_t can_id, const uint8_t *can
     }
     int8_t write_err_check = write(socket_can_, &frame_, sizeof(struct can_frame));
     return write_err_check;
+}
+
+int8_t CanCommunication::socketCanReceive(uint16_t &can_id, uint8_t *can_data, uint8_t &size){
+    int8_t read_err_check = read(socket_can_, &frame_, sizeof(struct can_frame));
+    can_id = frame_.can_id;
+    size = frame_.can_dlc;
+    for (int i = 0; i < size; i++){
+        can_data[i] = frame_.data[i];
+    }
+    return read_err_check;
 }
 

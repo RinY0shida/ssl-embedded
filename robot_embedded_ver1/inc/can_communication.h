@@ -1,7 +1,7 @@
 /**
  * @file can_communication.h
  * @author RinYoshida (tororo1219@gmail.com)
- * @brief m2006とubuntuがcan通信を行うためのヘッダファイル
+ * @brief ubuntuとペリフェラルがcan通信を行うためのヘッダファイル
  * @date 2024-07-01
  */
 
@@ -24,16 +24,29 @@ public:
     ~CanCommunication();
 
     /**
-     * @brief CAN通信を行うための関数
+     * @brief CAN通信で送信を行うための関数
      * @param can_id
      * @param can_data 
      * @return int8_t
      * @retval 0: 正常終了
-     * @retval -1: 送信失敗
+     * @retval 正: 正常終了　送信バイト数
+     * @retval 負: 送信失敗
      */
     int8_t socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size);
 
-public:
+    /**
+     * @brief CAN通信で受信を行うための関数
+     * @param can_id 
+     * @param can_data 
+     * @param size
+     * @return int8_t 
+     * @retval 0: 正常終了
+     * @retval 正: 正常終了　受信バイト数
+     * @retval 負: 受信失敗
+     */
+    int8_t socketCanReceive(uint16_t &can_id, uint8_t *can_data, uint8_t &size);
+
+private:
     std::string can_interface_name_; // CANインターフェース名
     int socket_can_; // CAN raw socket
     struct sockaddr_can addr_;
