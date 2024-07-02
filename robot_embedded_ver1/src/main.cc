@@ -4,12 +4,15 @@
  * @brief robotを動かすための処理を書くfile
  * @date 2024-07-02 
  */
+#include "main.h"
+#include "can_communication.h"
 
-const string can_interface_name = "can0";
+#include <cstdint>
+#include <memory>
 
-CanCommunication *can_communication = nullptr;
-can_communication = new(CanCommunication(can_interface_name));
+const std::string can_interface_name = "can0";
 
+std::unique_ptr<CanCommunication> can_communication = std::make_unique<CanCommunication>(can_interface_name);
 
 int main(){
     while(true){
@@ -17,9 +20,9 @@ int main(){
     }
 }
 
-maintask(){
+void maintask(){
     // 一旦buildcheck用に書いている。
-    uint16_t std_id = 201;
+    uint16_t can_id = 200;
     uint8_t data[8] = {0};
-    can_communication->socket_can_send(std_id, data, 8);
+    can_communication->socketCanSend(can_id, data, 8);
 }

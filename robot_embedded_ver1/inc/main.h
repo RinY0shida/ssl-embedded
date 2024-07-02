@@ -8,10 +8,10 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "can_communication.h"
-
 /**
  * @brief main関数のloop処理に入っている関数
  */
 void maintask(void);
+
+#endif // MAIN_H
 
