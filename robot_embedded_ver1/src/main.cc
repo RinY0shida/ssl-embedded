@@ -26,7 +26,7 @@ void maintask(){
     // 一旦buildcheck用に書いている。
     //uint16_t can_id = 200;
     uint8_t data[8] = {0};
-    uint16_t can_id;
+    uint32_t can_id;
     //std::array<uint8_t, 8> data;
     uint8_t size;
     int err = 0;

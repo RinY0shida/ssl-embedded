@@ -32,7 +32,7 @@ public:
      * @retval 正: 正常終了　送信バイト数
      * @retval 負: 送信失敗
      */
-    int8_t socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size);
+    int8_t socketCanSend(const uint32_t can_id, const uint8_t *can_data, const uint8_t size);
 
     /**
      * @brief CAN通信で受信を行うための関数
@@ -44,7 +44,7 @@ public:
      * @retval 正: 正常終了　受信バイト数
      * @retval 負: 受信失敗
      */
-    int8_t socketCanReceive(uint16_t &can_id, uint8_t *can_data, uint8_t &size);
+    int8_t socketCanReceive(uint32_t &can_id, uint8_t *can_data, uint8_t &size);
 
 private:
     std::string can_interface_name_; // CANインターフェース名
