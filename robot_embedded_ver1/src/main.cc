@@ -8,7 +8,9 @@
 #include "can_communication.h"
 
 #include <cstdint>
+#include <iostream>
 #include <memory>
+#include <array>
 
 const std::string can_interface_name = "can0";
 
@@ -22,7 +24,16 @@ int main(){
 
 void maintask(){
     // 一旦buildcheck用に書いている。
-    uint16_t can_id = 200;
+    //uint16_t can_id = 200;
     uint8_t data[8] = {0};
-    can_communication->socketCanSend(can_id, data, 8);
+    uint16_t can_id;
+    //std::array<uint8_t, 8> data;
+    uint8_t size;
+    int err = 0;
+    //can_communication->socketCanSend(can_id, data, 8);
+    err = can_communication->socketCanReceive(can_id, data, size);
+    std::cout << "can_id: " << can_id << std::endl;
+    for (int i = 0; i < size; i++){
+        std::cout << "data[" << i << "]: " << static_cast<int>(data[i]) << std::endl;
+    }
 }
