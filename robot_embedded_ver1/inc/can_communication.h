@@ -1,12 +1,12 @@
 /**
- * @file m2006_can_communication.h
+ * @file can_communication.h
  * @author RinYoshida (tororo1219@gmail.com)
  * @brief m2006とubuntuがcan通信を行うためのヘッダファイル
  * @date 2024-07-01
  */
 
-#ifndef M2006_CAN_COMMUNICATION_H
-#define M2006_CAN_COMMUNICATION_H
+#ifndef CAN_COMMUNICATION_H
+#define CAN_COMMUNICATION_H
 
 #include <iostream>
 #include <cstdint>
@@ -18,10 +18,10 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
-class M2006CanCommunication{
+class CanCommunication{
 public:
-    M2006CanCommunication(const string can_interface_name);
-    ~M2006CanCommunication();
+    CanCommunication(const string can_interface_name);
+    ~CanCommunication();
 
     /**
      * @brief CAN通信を行うための関数
@@ -37,3 +37,5 @@ public:
     struct can_frame frame_;
     struct ifreq ifr_;
 };
+
+#endif // CAN_COMMUNICATION_H
