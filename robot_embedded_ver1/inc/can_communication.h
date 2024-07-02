@@ -28,7 +28,7 @@ public:
      * @param can_id
      * @param can_data 
      */
-    void socketCanSend(const uint16_t can_id, const uint8_t *can_data);
+    void socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size);
 
 public:
     string can_interface_name_; // CANインターフェース名
