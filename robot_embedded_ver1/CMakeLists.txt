@@ -10,7 +10,7 @@ add_executable(robot_embedded_ver1
 target_include_directories(robot_embedded_ver1 PRIVATE inc)
 
 set_target_properties(robot_embedded_ver1 PROPERTIES 
-                CXX_STANDARD 11 
+                CXX_STANDARD 14 
                 CXX_STANDARDRE_REQUIRED YES
                 CXX_EXTENSIONS NO
                 )
