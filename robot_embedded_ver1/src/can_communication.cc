@@ -1,13 +1,13 @@
 /**
- * @file m2006_can_communication.cc
+ * @file can_communication.cc
  * @author RinYoshida (tororo1219@gmail.com)
  * @brief m2006とubuntuがcan通信を行うためのクラス
  * @date 2024-07-01
  */
 
-#include "m2006_can_communication.h"
+#include "can_communication.h"
 
-M2006CanCommunication::M2006CanCommunication(const string can_interface_name) : can_interface_name_(can_interface_name){
+CanCommunication::CanCommunication(const string can_interface_name) : can_interface_name_(can_interface_name){
     socket_can_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
     strcpy(ifr_.ifr_name, can_interface_name_.c_str());
     ioctl(socket_can_, SIOCGIFINDEX, &ifr);
@@ -17,11 +17,11 @@ M2006CanCommunication::M2006CanCommunication(const string can_interface_name) : 
     bind(socket_can_, (struct sockaddr *)&addr_, sizeof(addr_));
 }
 
-M2006CanCommunication::~M2006CanCommunication(){
+CanCommunication::~CanCommunication(){
     close(socket_can_);
 }
 
-void M2006CanCommunication::socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size){
+void CanCommunication::socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size){
     frame_.can_id = can_id;
     frame_.can_dlc = size;
     for (int i = 0; i < size; i++){
