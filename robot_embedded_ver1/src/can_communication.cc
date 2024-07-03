@@ -21,7 +21,7 @@ CanCommunication::~CanCommunication(){
     close(socket_can_);
 }
 
-int8_t CanCommunication::socketCanSend(const uint16_t can_id, const uint8_t *can_data, const uint8_t size){
+int8_t CanCommunication::socketCanSend(const uint32_t can_id, const uint8_t *can_data, const uint8_t size){
     frame_.can_id = can_id;
     frame_.can_dlc = size;
     for (int i = 0; i < size; i++){
@@ -31,7 +31,7 @@ int8_t CanCommunication::socketCanSend(const uint16_t can_id, const uint8_t *can
     return write_err_check;
 }
 
-int8_t CanCommunication::socketCanReceive(uint16_t &can_id, uint8_t *can_data, uint8_t &size){
+int8_t CanCommunication::socketCanReceive(uint32_t &can_id, uint8_t *can_data, uint8_t &size){
     int8_t read_err_check = read(socket_can_, &frame_, sizeof(struct can_frame));
     can_id = frame_.can_id;
     size = frame_.can_dlc;
