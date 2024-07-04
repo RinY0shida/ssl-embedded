@@ -4,7 +4,8 @@ project(robot_embedded_ver1 VERSION 1.0 LANGUAGES CXX)
 
 add_executable(robot_embedded_ver1 
                 src/main.cc 
-                src/can_communication
+                src/can_communication.cc
+                src/motor_control.cc
                 )
 
 target_include_directories(robot_embedded_ver1 PRIVATE inc)
