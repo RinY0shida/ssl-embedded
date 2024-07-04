@@ -6,6 +6,7 @@
  */
 #include "main.h"
 #include "can_communication.h"
+#include "motor_control.h"
 
 #include <cstdint>
 #include <iostream>
@@ -15,6 +16,7 @@
 const std::string can_interface_name = "can0";
 
 std::unique_ptr<CanCommunication> can_communication = std::make_unique<CanCommunication>(can_interface_name);
+std::unique_ptr<MotorControl> motor_control = std::make_unique<MotorControl>();
 
 int main(){
     while(true){
