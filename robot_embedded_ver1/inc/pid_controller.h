@@ -1,0 +1,41 @@
+/**
+ * @file pid_controller.h
+ * @author RinYoshida (tororo1219@gmail.com)
+ * @brief PID制御を行うクラス 
+ * @date 2024-07-07
+ */
+
+#ifndef PID_CONTROLLER_H
+#define PID_CONTROLLER_H
+
+#include <cstdint>
+
+class PidController{
+public:
+    PidController(const double p_gain, const double i_gain, const double d_gain) {
+     : p_gain_(p_gain),
+       i_gain_(i_gain), 
+       d_gain_(d_gain), 
+    }
+
+    ~PidController(){
+    }
+
+    /**
+     * @brief PID制御を行う関数
+     * @param target_value 目標値
+     * @param current_value 現在値
+     * @return int16_t
+     * @retval 制御値
+     */
+    double PidControl(double target_value, double current_value){
+        double error = target_value - current_value;
+        return p_gain_ * error;
+    }
+
+private:
+    const double p_gain_;
+    const double i_gain_;
+    const double d_gain_;
+};
+#endif //PID_CONTROLLER_H
