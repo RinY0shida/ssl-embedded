@@ -11,9 +11,11 @@
 #include <cstdint>
 #include <vector>
 
+#include "pid_controller.h"
+
 class MotorControl{
 public:
-    MotorControl();
+    MotorControl(PidController pid_controller, const uint32_t wheel_diameter);
     ~MotorControl();
 
     /**
@@ -37,6 +39,9 @@ private:
     double motor_back_right_velocity_;
     double motor_back_left_velocity_;
     double motor_fwd_left_velocity_;
+
+    PidController *pid_controller_;
+    const uint32_t wheel_diameter_;
 };
 
 #endif //MOTOR_CONTROL_H
