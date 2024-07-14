@@ -35,12 +35,12 @@ private:
     static constexpr d_gain = 10;
     double pid_amount;
 
-    double motor_fwd_right_velocity_;
-    double motor_back_right_velocity_;
-    double motor_back_left_velocity_;
-    double motor_fwd_left_velocity_;
+    double motor_fwd_right_velocity_target_;
+    double motor_back_right_velocity_target_;
+    double motor_back_left_velocity_target_;
+    double motor_fwd_left_velocity_target_;
 
-    PidController *pid_controller_;
+    PidController *pid_controller;
     const uint32_t wheel_diameter_;
 };
 
