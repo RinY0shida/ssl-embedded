@@ -15,7 +15,7 @@
 
 class MotorControl{
 public:
-    MotorControl(PidController pid_controller, const uint32_t wheel_diameter);
+    MotorControl(PidController *pid_controller_, const uint32_t wheel_diameter);
     ~MotorControl();
 
     /**
@@ -30,17 +30,12 @@ public:
     int8_t velocityControl(double degree, uint32_t velocity, uint8_t *motor_transmit_data, std::vector<uint8_t> motor_receive_data);
 
 private:
-    static constexpr p_gain = 10;
-    static constexpr i_gain = 10;
-    static constexpr d_gain = 10;
-    double pid_amount;
+    double motor_fwd_right_velocity_target_;
+    double motor_back_right_velocity_target_;
+    double motor_back_left_velocity_target_;
+    double motor_fwd_left_velocity_target_;
 
-    double motor_fwd_right_velocity_;
-    double motor_back_right_velocity_;
-    double motor_back_left_velocity_;
-    double motor_fwd_left_velocity_;
-
-    PidController *pid_controller_;
+    PidController *pid_controller;
     const uint32_t wheel_diameter_;
 };
 

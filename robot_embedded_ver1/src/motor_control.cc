@@ -10,8 +10,9 @@
 
 #include "motor_control.h"
 
-MotorControl::MotorControl(PidController pid_controller)
- : pid_controller_(pid_controller){
+MotorControl::MotorControl(PidController *pid_controller_, const uint32_t wheel_diameter)
+ : pid_controller(pid_controller_),
+   wheel_diameter_(wheel_diameter){
 }
 
 MotorControl::~MotorControl(){
@@ -27,10 +28,10 @@ int8_t MotorControl::velocityControl(double degree, uint32_t velocity, uint8_t *
     double motor_fwd_left_velocity = (static_cast<uint16_t>(motor_receive_data[6]) << 8) | motor_receive_data[7]; // [rpm]
 
      // rpmをm/sに変換
-    motor_fwd_right_velocity_ = (motor_fwd_right_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
-    motor_back_right_velocity_ = (motor_back_right_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
-    motor_back_left_velocity_ = (motor_back_left_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
-    motor_fwd_left_velocity_ = (motor_fwd_left_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
+    motor_fwd_right_velocity = (motor_fwd_right_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
+    motor_back_right_velocity = (motor_back_right_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
+    motor_back_left_velocity = (motor_back_left_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
+    motor_fwd_left_velocity = (motor_fwd_left_velocity * wheel_diameter_ * M_PI) / 60; // [m/s]
 
     double motor_fwd_right_vector = sinf((degree - 45.0) * M_PI / 180);
     double motor_back_right_vector = sinf((degree - 135.0) * M_PI / 180);
@@ -42,19 +43,24 @@ int8_t MotorControl::velocityControl(double degree, uint32_t velocity, uint8_t *
     motor_max_vector = fmax(fabs(motor_back_left_vector), motor_max_vector);
     motor_max_vector = fmax(fabs(motor_fwd_left_vector), motor_max_vector);
 
-    motor_fwd_right_velocity_ = (motor_fwd_right_vector / motor_max_vector) * velocity; // [m/s]
-    motor_back_right_velocity_ = (motor_back_right_vector  / motor_max_vector) * velocity; // [m/s]
-    motor_back_left_velocity_ = (motor_back_left_vector / motor_max_vector) * velocity; // [m/s]
-    motor_fwd_left_velocity_ = (motor_fwd_left_vector  / motor_max_vector) * velocity; // [m/s]
+    double motor_fwd_right_velocity_target_ = (motor_fwd_right_vector / motor_max_vector) * velocity; // [m/s]
+    double motor_back_right_velocity_target_ = (motor_back_right_vector  / motor_max_vector) * velocity; // [m/s]
+    double motor_back_left_velocity_target_ = (motor_back_left_vector / motor_max_vector) * velocity; // [m/s]
+    double motor_fwd_left_velocity_target_ = (motor_fwd_left_vector  / motor_max_vector) * velocity; // [m/s]
+
+    double motor_fwd_right_velocity_pid = pid_controller->PidControl(motor_fwd_right_velocity_target_, motor_fwd_right_velocity, 0.01);
+    double motor_back_right_velocity_pid = pid_controller->PidControl(motor_back_right_velocity_target_, motor_back_right_velocity, 0.01);
+    double motor_back_left_velocity_pid = pid_controller->PidControl(motor_back_left_velocity_target_, motor_back_left_velocity, 0.01);
+    double motor_fwd_left_velocity_pid = pid_controller->PidControl(motor_fwd_left_velocity_target_, motor_fwd_left_velocity, 0.01);
 
      // 上位ビットと下位ビットに分けて送信用の配列に代入
-    motor_transmit_data[0] = (static_cast<int16_t>(motor_fwd_right_velocity_) >> 8) & 0xff;
-    motor_transmit_data[1] = static_cast<int16_t>(motor_fwd_right_velocity_) & 0xff;
-    motor_transmit_data[2] = (static_cast<int16_t>(motor_back_right_velocity_) >> 8) & 0xff;
-    motor_transmit_data[3] = static_cast<int16_t>(motor_back_right_velocity_) & 0xff;
-    motor_transmit_data[4] = (static_cast<int16_t>(motor_back_left_velocity_) >> 8) & 0xff;
-    motor_transmit_data[5] = static_cast<int16_t>(motor_back_left_velocity_) & 0xff;
-    motor_transmit_data[6] = (static_cast<int16_t>(motor_fwd_left_velocity_) >> 8) & 0xff;
-    motor_transmit_data[7] = static_cast<int16_t>(motor_fwd_left_velocity_) & 0xff;
+    motor_transmit_data[0] = (static_cast<int16_t>(motor_fwd_right_velocity_pid) >> 8) & 0xff;
+    motor_transmit_data[1] = static_cast<int16_t>(motor_fwd_right_velocity_pid) & 0xff;
+    motor_transmit_data[2] = (static_cast<int16_t>(motor_back_right_velocity_pid) >> 8) & 0xff;
+    motor_transmit_data[3] = static_cast<int16_t>(motor_back_right_velocity_pid) & 0xff;
+    motor_transmit_data[4] = (static_cast<int16_t>(motor_back_left_velocity_pid) >> 8) & 0xff;
+    motor_transmit_data[5] = static_cast<int16_t>(motor_back_left_velocity_pid) & 0xff;
+    motor_transmit_data[6] = (static_cast<int16_t>(motor_fwd_left_velocity_pid) >> 8) & 0xff;
+    motor_transmit_data[7] = static_cast<int16_t>(motor_fwd_left_velocity_pid) & 0xff;
     return 0;
 }

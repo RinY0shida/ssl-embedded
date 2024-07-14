@@ -18,8 +18,8 @@
 const std::string can_interface_name = "can0";
 
 std::unique_ptr<CanCommunication> can_communication = std::make_unique<CanCommunication>(can_interface_name);
-std::unique_ptr<MotorControl> motor_control = std::make_unique<MotorControl>();
-std::unique_ptr<PidController> pid_controller = std::make_unique<PidController>(5.0, 5.0, 5.0);
+PidController *pid_velocity_controller = new PidController(0.1, 0.01, 0.01);
+std::unique_ptr<MotorControl> motor_control = std::make_unique<MotorControl>(pid_velocity_controller, 50);
 int main(){
     while(true){
         maintask();
@@ -27,7 +27,7 @@ int main(){
 }
 
 void maintask(){
-    pid_controller->PidControl(0, 10, 0.01);
+    pid_velocity_controller->PidControl(0, 10, 0.01);
     
     // 一旦buildcheck用に書いている。
     //uint16_t can_id = 200;
