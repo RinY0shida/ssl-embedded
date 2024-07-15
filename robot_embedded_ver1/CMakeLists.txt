@@ -8,7 +8,7 @@ add_executable(robot_embedded_ver1
                 src/motor_control.cc
                 )
 
-target_include_directories(robot_embedded_ver1 PRIVATE inc)
+target_include_directories(robot_embedded_ver1 PRIVATE inc/robot_embedded_ver1)
 
 set_target_properties(robot_embedded_ver1 PROPERTIES 
                 CXX_STANDARD 14 
