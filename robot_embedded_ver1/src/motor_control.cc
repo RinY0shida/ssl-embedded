@@ -18,7 +18,7 @@ MotorControl::MotorControl(std::unique_ptr<PidController> pid_controller_, const
 MotorControl::~MotorControl(){
 }
 
-int8_t MotorControl::velocityControl(double degree, uint32_t velocity, uint8_t *motor_transmit_data, std::vector<uint8_t> motor_receive_data){
+int8_t MotorControl::VelocityControl(double degree, uint32_t velocity, uint8_t *motor_transmit_data, std::vector<uint8_t> motor_receive_data){
     if (velocity >= 10000 && velocity < 0) return -1;
 
      // rpmの値を取得
