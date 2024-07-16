@@ -10,12 +10,13 @@
 
 #include <cstdint>
 #include <vector>
+#include <memory>
 
 #include "pid_controller.h"
 
 class MotorControl{
 public:
-    MotorControl(PidController *pid_controller_, const uint32_t wheel_diameter);
+    MotorControl(std::unique_ptr<PidController> pid_controller_, const uint32_t wheel_diameter);
     ~MotorControl();
 
     /**
@@ -35,7 +36,8 @@ private:
     double motor_back_left_velocity_target_;
     double motor_fwd_left_velocity_target_;
 
-    PidController *pid_controller;
+    //PidController *pid_controller;
+    std::unique_ptr<PidController> pid_controller;
     const uint32_t wheel_diameter_;
 };
 
