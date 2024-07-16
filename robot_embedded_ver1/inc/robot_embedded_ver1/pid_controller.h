@@ -30,17 +30,21 @@ public:
      * @retval 制御値
      */
     double PidControl(double target_value, double current_value, double control_cycle){
-        double error = target_value - current_value;
-        double differential = (error - pre_error_) / control_cycle;
-        integral_ += (error + pre_error_) * control_cycle / 2;
-        pre_error_ = error;
         if (pre_target_value_ != target_value){
+            pre_error_ = 0;
             integral_ = 0;
         }
         if (target_value == current_value){
             integral_ = 0; // TODO 範囲を大きくしてもいい
         }
+
+        double error = target_value - current_value;
+        double differential = (error - pre_error_) / control_cycle;
+        integral_ += (error + pre_error_) * control_cycle / 2;
+
+        pre_error_ = error;
         pre_target_value_ = target_value;
+
         return p_gain_ * error + i_gain_ * integral_ + d_gain_ * differential;
     }
 
