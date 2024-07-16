@@ -28,7 +28,7 @@ public:
      * @retval 0: 正常終了
      * @retval -1: 速度値の上限を超えた　-10,000 ~ 10,000
      */
-    int8_t velocityControl(double degree, uint32_t velocity, uint8_t *motor_transmit_data, std::vector<uint8_t> motor_receive_data);
+    int8_t VelocityControl(double degree, uint32_t velocity, uint8_t *motor_transmit_data, std::vector<uint8_t> motor_receive_data);
 
 private:
     double motor_fwd_right_velocity_target_;
