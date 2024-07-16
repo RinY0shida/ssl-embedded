@@ -43,10 +43,10 @@ int8_t MotorControl::velocityControl(double degree, uint32_t velocity, uint8_t *
     motor_max_vector = fmax(fabs(motor_back_left_vector), motor_max_vector);
     motor_max_vector = fmax(fabs(motor_fwd_left_vector), motor_max_vector);
 
-    double motor_fwd_right_velocity_target_ = (motor_fwd_right_vector / motor_max_vector) * velocity; // [m/s]
-    double motor_back_right_velocity_target_ = (motor_back_right_vector  / motor_max_vector) * velocity; // [m/s]
-    double motor_back_left_velocity_target_ = (motor_back_left_vector / motor_max_vector) * velocity; // [m/s]
-    double motor_fwd_left_velocity_target_ = (motor_fwd_left_vector  / motor_max_vector) * velocity; // [m/s]
+    motor_fwd_right_velocity_target_ = (motor_fwd_right_vector / motor_max_vector) * velocity; // [m/s]
+    motor_back_right_velocity_target_ = (motor_back_right_vector  / motor_max_vector) * velocity; // [m/s]
+    motor_back_left_velocity_target_ = (motor_back_left_vector / motor_max_vector) * velocity; // [m/s]
+    motor_fwd_left_velocity_target_ = (motor_fwd_left_vector  / motor_max_vector) * velocity; // [m/s]
 
     double motor_fwd_right_velocity_pid = pid_controller->PidControl(motor_fwd_right_velocity_target_, motor_fwd_right_velocity, 0.01);
     double motor_back_right_velocity_pid = pid_controller->PidControl(motor_back_right_velocity_target_, motor_back_right_velocity, 0.01);
