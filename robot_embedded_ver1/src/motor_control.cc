@@ -10,8 +10,8 @@
 
 #include "motor_control.h"
 
-MotorControl::MotorControl(PidController *pid_controller_, const uint32_t wheel_diameter)
- : pid_controller(pid_controller_),
+MotorControl::MotorControl(std::unique_ptr<PidController> pid_controller_, const uint32_t wheel_diameter)
+ : pid_controller(std::move(pid_controller_)),
    wheel_diameter_(wheel_diameter){
 }
 
